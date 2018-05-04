@@ -27,10 +27,10 @@ The Packer json uses 3 provisioners:
 - ansible-local - This runs the playbook and installs the roles above.
 - shell command - Cleans up Ansible Directory and removes the Ansible package.
 
-1) Make adjustments to the ansible/group_vars/all file to meet your needs. You can also remove any of the roles if you do not wish to use the component. You may also add roles by adding the role folder unders roles and adding the name of the role under 'roles' in the ansible/aws-packer file (Playbook file). You can also make adjustments to any of the templates directory for each role. 
+1) Make adjustments to the ansible/group_vars/all file to meet your needs. You can also remove any of the roles if you do not wish to use the component. You may also add roles by adding the role folder under roles directory and adding the name of the role under 'roles' in the ansible/aws-packer.yml file (Playbook file). You can also make adjustments to any of the template directory for each role. 
 
 
-2) Export your variables for your AMI, VPC, Subnet, Region and AZ and validate the json
+2) Export your variables for your AMI, VPC, Subnet, Region and AZ and validate the json.
 ``` sh
 packer validate \
     -var ami=ami-centos7 \
@@ -41,7 +41,7 @@ packer validate \
     dcos_agent_centos7.4.json
 ```
 
-3) If validation checks out, run the build
+3) If validation checks out successful, run the build.
 ``` sh
 packer build \
     -var ami=ami-centos7 \
