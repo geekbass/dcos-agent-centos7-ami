@@ -1,0 +1,52 @@
+---
+
+# This playbook installs beats for metrics and logging
+- name: elastic repo gpg key
+  rpm_key: key=https://packages.elastic.co/GPG-KEY-elasticsearch 
+  state: present
+
+- name: add elastic repo
+  template: 
+    src: elastic.repo.j2
+    dest: /etc/yum.repos.d/elastic.repo
+    owner: root 
+    group: root
+
+- name: install filebeat
+  yum: 
+    name: filebeat 
+    state: latest
+
+- name: add filebeat yaml config default for OS and Agent
+  template: 
+    src: filebeat.yml.j2 
+    dest: /etc/filebeat/filebeat.yml 
+    owner: root 
+    group: root
+
+- name: start filebeat service
+  service: 
+    name: filebeat 
+    enabled: yes
+    state: started
+
+- name: install metricbeat
+  yum: 
+    name: metricbeat 
+    state: latest
+
+- name: add metricbeat yaml config
+  template: 
+    src: metricbeat.yml.j2 
+    dest: /etc/metricbeat/metricbeat.yml 
+    owner: root 
+    group: root
+
+- name: enable autostart for metricbeat
+  service: 
+    name: metricbeat 
+    enabled: yes
+    state: started
+
+
+

@@ -1,0 +1,21 @@
+---
+
+# Install netdata as a container for a web ui metric
+- name: docker netdata container
+  command: sudo docker run -d --name docker-netdata --cap-add SYS_PTRACE  -v /proc:/host/proc:ro  -v /sys:/host/sys:ro  -v /var/run/docker.sock:/var/run/docker.sock  -p 8081:19999 firehol/netdata
+
+- name: add the systemd file to start and enable netdata
+  template:
+    src: docker-netdata.service.j2
+    dest: /etc/systemd/system/docker-netdata.service
+
+- name: force systemd to reread configs 
+  systemd: daemon_reload=yes
+
+- name: enable docker
+  service:
+    name: docker-netdata
+    enabled: yes
+    state: started
+
+    

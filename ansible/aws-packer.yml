@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  roles: 
+    - common
+    - docker
+    - beats
+    - telegraf
+    - netdata
+    - check_mk
+    

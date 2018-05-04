@@ -1,0 +1,34 @@
+metricbeat.modules:
+- module: system
+  metricsets:
+    - cpu
+    - load
+    - core
+    - diskio
+    - filesystem
+    - fsstat
+    - memory
+    - network
+    - process
+  enabled: true
+  period: 10s
+  processes: ['.*']
+
+- module: docker
+  metricsets:
+    - container
+    - cpu
+    - diskio
+    - info
+    - memory
+    - network
+  hosts: ["unix:///var/run/docker.sock"]
+  enabled: true
+  period: 10s
+
+output.elasticsearch:
+  hosts: ["https://{{ elastic-node }}:9200"]
+  username: "{{ es_user }}"
+  password: "{{ es_pass }}"
+  protocol: https
+  ssl.verification_mode: "none"

@@ -1,0 +1,35 @@
+--- 
+
+# Install Telegraf to ship Metric Data to Influx
+
+- name: add influx repository
+  template: 
+    src: influxdb.repo.j2 
+    dest: /etc/yum.repos.d/influxdb.repo 
+    owner: root 
+    group: root
+
+- name: install telegraf
+  yum: 
+    name: telegraf 
+    state: latest
+
+- name: add telegraf.conf for System and Docker Metrics
+  template: 
+    src: telegraf.conf.j2 
+    dest: /etc/telegraf/telegraf.conf 
+    owner: root 
+    group: root
+
+- name: append the telegraf user to the docker group so it can listen on docker socket
+  user: 
+    name: telegraf 
+    groups: docker 
+    append: yes
+
+- name: start and enable telegraf service
+  service: 
+    name: telegraf 
+    state: started
+    enabled: yes 
+

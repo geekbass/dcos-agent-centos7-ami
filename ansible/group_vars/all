@@ -1,0 +1,11 @@
+---
+
+es_user: "elastic"
+es_pass: "blah"
+es_cluster: "elastic-cluster"
+telegraf_tag_dc: "us-east-1"
+telegraf_tag_env: "dev"
+influx_node: "influx-node"
+check_mk_master: "check-mk-node"
+check_mk_rpm: "check-mk-agent-blah-blah.noarch.rpm"
+

@@ -1,0 +1,21 @@
+---
+
+# Install Check_MK for monitoring
+
+- name: xinetd install
+  yum: 
+    name: xinetd 
+    state: latest
+
+- name: check_mk install
+  yum: 
+    pkg: http://{{ check_mk_master }}/master/check_mk/agents/{{ check_mk_rpm }}
+    state: installed
+
+- name: check_mk enable with xinetd
+  service: 
+    name: xinetd 
+    state: restarted 
+    enabled: yes
+
+

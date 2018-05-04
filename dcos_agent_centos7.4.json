@@ -1,0 +1,61 @@
+{
+    "variables": {
+      "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+      "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+      "ami": "",
+      "vpc_id": "",
+      "subnet_id": "",
+      "region": "",
+      "az": ""
+    },
+    "builders": [
+      {
+        "ami_description": "AMI used for DC/OS Agents (Centos 7.4)",
+        "availability_zone": "{{user `az`}}",
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key` }}",
+        "secret_key": "{{user `aws_secret_key` }}",
+        "vpc_id": "{{user `vpc_id`}}",
+        "subnet_id": "{{user `subnet_id`}}",
+        "run_tags": {
+            "Name": "dcos_agent_centos1801_ami",
+            "Type": "Packer.io"
+          },
+        "tags": {
+          "Name": "dcos_agent_centos1801_ami",
+          "Type": "Packer.io"
+        },
+        "region": "{{user `region`}}",
+        "source_ami": "{{user `ami`}}",
+        "instance_type": "t2.micro",
+        "ssh_username": "centos",
+        "ami_name": "dcos_agent_centos1801 {{timestamp}}",
+        "ssh_pty": "true"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "remote_path": "/home/centos/agent-setup.sh",
+        "script": "agent-setup.sh"
+      },
+      {
+        "type": "ansible-local",
+        "playbook_file": "ansible/aws-packer.yml",
+        "playbook_dir": "ansible",
+        "staging_directory": "/home/centos/ansible",
+        "inventory_file": "ansible/inventory/aws/hosts"
+    },
+    {
+        "type": "shell",
+        "execute_command": "{{ .Vars }} sudo -E /bin/sh -ex '{{ .Path }}'",
+        "inline": [
+            "sleep 5s",
+            "sudo yum remove ansible -y",
+            "sudo rm -rf /home/centos/ansible", 
+            "echo Complete..."
+        ]
+    }
+  ]
+}
+  
