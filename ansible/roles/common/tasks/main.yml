@@ -26,9 +26,8 @@
     - java-1.7.0-openjdk
 
 - name: disable selinux
-  selinux: 
-    policy: targeted 
-    state: permissive
+  selinux:  
+    state: disabled
 
 - name: create group 'nogroup'
   group: 
