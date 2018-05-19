@@ -52,3 +52,21 @@ packer build \
     dcos_agent_centos7.4.json
 ```
 
+### Using the Ansible Roles ONLY
+1) Pull down the repo and switch to ansible directory
+
+2) OPTIONAL: Modify your roles by either adding or removing the directories under roles. Also modify the aws-packer.yml roles if modified role directories.
+
+3) Update group_vars/all
+
+4) Modify inventory/aws/hosts file with your inventory
+
+5) Run Playbook
+
+```sh
+ansible-playbook -i inventory/aws/hosts aws-packer.yml
+```
+
+### Jenkins Pipeline
+See Jenkinsfile. For ease, of this repo just hard code your variables (above) in the dcos_agent_centos7.4.json file first. There are multiple ways to use variables in Jenkins which is outside the scope of this repo. Pipeline will break if validation fails and you can see errors from Jenkins Console for the build number. 
+
