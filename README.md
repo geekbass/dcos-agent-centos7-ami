@@ -36,8 +36,8 @@ packer validate \
     -var ami=ami-centos7 \
     -var vpc_id=vpc-12345678 \
     -var subnet_id=subnet-12345678 \
-    -var region=us-east1 \
-    -var az=us-east1a \
+    -var region=us-east-1 \
+    -var az=us-east-1a \
     dcos_agent_centos7.4.json
 ```
 
@@ -47,8 +47,8 @@ packer build \
     -var ami=ami-centos7 \
     -var vpc_id=vpc-12345678 \
     -var subnet_id=subnet-12345678 \
-    -var region=us-east1 \
-    -var az=us-east1a \
+    -var region=us-east-1 \
+    -var az=us-east-1a \
     dcos_agent_centos7.4.json
 ```
 
@@ -68,5 +68,5 @@ ansible-playbook -i inventory/aws/hosts aws-packer.yml
 ```
 
 ### Jenkins Pipeline
-See Jenkinsfile. For ease, of this repo just hard code your variables (above) in the dcos_agent_centos7.4.json file first. There are multiple ways to use variables in Jenkins which is outside the scope of this repo. Pipeline will break if validation fails and you can see errors from Jenkins Console for the build number. 
+See Jenkinsfile. For ease, for this repo just hard code your variables (above) in the dcos_agent_centos7.4.json file first. There are multiple ways to use variables in Jenkins which is outside the scope of this repo. Pipeline will break if validation fails and you can see errors from Jenkins Console for the build number. 
 
